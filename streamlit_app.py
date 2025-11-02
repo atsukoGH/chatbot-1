@@ -8,7 +8,8 @@ import pandas as pd  # 追加
 
 st.title("💬 Chatbot (Gemini 2.5 Pro + ファイル質問対応)")
 st.write(
-    "このチャットボットはGoogle Gemini 2.5 Pro APIを使って返答します。テキスト・PDF・Word・Excel・CSVファイルをアップロードすると、論文形式の場合は研究の背景や目的、結論などを自動で抽出します。"
+    "このチャットボットはGoogle Gemini 2.5 Pro APIを使って返答します。テキスト・PDF・Word・Excel・CSVファイルのアップロードができます。
+    　論文形式の場合は研究の背景や目的、結論などを自動で抽出します。"
 )
 gemini_api_key = st.secrets.get("GEMINI_API_KEY")
 
