@@ -35,8 +35,8 @@ else:
 
         # Gemini APIで返答生成
         try:
-            # Geminiはchatモデルを使う
-            chat = genai.GenerativeModel("gemini-pro").start_chat(history=[
+            # モデル名を"gemini-flash-2.5"に変更
+            chat = genai.GenerativeModel("gemini-flash-2.5").start_chat(history=[
                 {"role": m["role"], "parts": [m["content"]]}
                 for m in st.session_state.messages if m["role"] in ("user", "assistant")
             ])
