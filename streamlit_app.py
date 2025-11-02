@@ -4,16 +4,17 @@ import google.generativeai as genai
 import io
 import PyPDF2
 import docx
+import pandas as pd  # 追加
 
 st.title("💬 Chatbot (Gemini 2.5 Pro + ファイル質問対応)")
 st.write(
-    "このチャットボットはGoogle Gemini 2.5 Pro APIを使って返答します。テキスト・PDF・Wordファイルをアップロードすると、論文形式の場合は研究の背景・目的（10行程度）、結論（5行程度）を要約します。それ以外は5行程度で要約します。"
+    "このチャットボットはGoogle Gemini 2.5 Pro APIを使って返答します。テキスト・PDF・Word・Excel・CSVファイルをアップロードすると、論文形式の場合は研究の背景や目的、結論などを自動で抽出します。"
 )
 gemini_api_key = st.secrets.get("GEMINI_API_KEY")
 
 uploaded_file = st.file_uploader(
-    "質問したいファイルをアップロードしてください（txt/pdf/docx対応）",
-    type=["txt", "pdf", "docx"]
+    "質問したいファイルをアップロードしてください（txt/pdf/docx/xlsx/csv対応）",
+    type=["txt", "pdf", "docx", "xlsx", "csv"]
 )
 
 def extract_text_from_file(uploaded_file):
@@ -43,6 +44,24 @@ def extract_text_from_file(uploaded_file):
             return text
         except Exception as e:
             st.error(f"Wordファイルの読み取りでエラー: {e}")
+            return None
+    elif name.endswith(".csv"):
+        try:
+            uploaded_file.seek(0)
+            df = pd.read_csv(uploaded_file)
+            text = df.to_csv(index=False)
+            return text
+        except Exception as e:
+            st.error(f"CSVファイルの読み取りでエラー: {e}")
+            return None
+    elif name.endswith(".xlsx"):
+        try:
+            uploaded_file.seek(0)
+            df = pd.read_excel(uploaded_file)
+            text = df.to_csv(index=False)
+            return text
+        except Exception as e:
+            st.error(f"Excelファイルの読み取りでエラー: {e}")
             return None
     else:
         st.error("未対応のファイル形式です。")
