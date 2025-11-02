@@ -1,2 +1,7 @@
 streamlit
 openai
+google-generativeai
+PyPDF2
+python-docx
+pandas
+openpyxl
